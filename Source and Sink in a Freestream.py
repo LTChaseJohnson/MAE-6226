@@ -42,7 +42,7 @@ def getstreamfunction(strength,xs,ys,X,Y):
     return psi
 
 # Using functions to calculate one source
-sourcestrength1 = 5.0          #Source strength
+sourcestrength1 = 15.0          #Source strength
 xSource,ySource = -1.0,-1.0     #Source location
 
 uSource,vSource = getvelocity(sourcestrength1,xSource,ySource,X,Y)
