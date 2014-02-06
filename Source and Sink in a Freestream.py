@@ -10,7 +10,7 @@ y = np.linspace(yStart,yEnd,N)    # y 1D-array
 X,Y = np.meshgrid(x,y)            # generation of the mesh grid
 
 Uinf = 1.0                        # Free stream velocity
-alpha = 0.0                       # Angle of attack
+alpha = 35.0                       # Angle of attack
 
 # Computing the velocity components (u,v)
 uFreestream = Uinf*cos(alpha*pi/180)*np.ones((N,N),dtype=float)
@@ -42,8 +42,8 @@ def getstreamfunction(strength,xs,ys,X,Y):
     return psi
 
 # Using functions to calculate one source
-sourcestrength1 = 5.0          #Source strength
-xSource,ySource = -1.0,-1.0     #Source location
+sourcestrength1 = 15.0          #Source strength
+xSource,ySource = -1.0,0.0     #Source location
 
 uSource,vSource = getvelocity(sourcestrength1,xSource,ySource,X,Y)
 psiSource = getstreamfunction(sourcestrength1,xSource,ySource,X,Y)
