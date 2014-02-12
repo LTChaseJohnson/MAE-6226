@@ -10,7 +10,7 @@ y = np.linspace(yStart,yEnd,N)    # y 1D-array
 X,Y = np.meshgrid(x,y)            # generation of the mesh grid
 
 Uinf = 1.0                        # Free stream velocity
-alpha = 35.0                       # Angle of attack
+alpha = 0                       # Angle of attack
 
 # Computing the velocity components (u,v)
 uFreestream = Uinf*cos(alpha*pi/180)*np.ones((N,N),dtype=float)
