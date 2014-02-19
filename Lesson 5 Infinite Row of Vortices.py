@@ -61,4 +61,28 @@ plt.ylim(yStart,yEnd)
 plt.streamplot(X,Y,uinfVortex,vinfVortex,density=2.0,linewidth=1,arrowsize=1,arrowstyle='->')
 plt.scatter(xinfVortex,yinfVortex,c='#CD2305',s=80,marker='o')
 
+gamma = 5.0
+Nv = 100
+xVortex1 = np.linspace(-50,50,Nv)
+yVortex1 = np.zeros(Nv)
+u1 = np.zeros((N,N))
+v1 = np.zeros((N,N))
+
+for i in range(0,Nv):
+    uVortex1,vVortex1 = getvelocityvortex(gamma,xVortex1[i],yVortex1[i],X,Y)
+    psiVortex1 = getstreamfunctionvortex(gamma,xVortex1[i],yVortex1[i],X,Y)
+    u1 = u1 + uVortex1
+    v1 = v1 + vVortex1
+
+size = 10
+plt.figure(figsize=(size,(yEnd-yStart)/(xEnd-xStart)*size))
+plt.xlabel('x',fontsize=16)
+plt.ylabel('y',fontsize=16)
+plt.title('Finite Vortices')
+plt.xlim(xStart,xEnd)
+plt.ylim(yStart,yEnd)
+plt.streamplot(X,Y,u1,v1,density=2.0,linewidth=1,arrowsize=1,arrowstyle='->')
+plt.scatter(xVortex1,yVortex1,c='#CD2305',s=80,marker='o')
+
+
 plt.show()
