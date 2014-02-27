@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import *
 
-N = 200
-xStart,xEnd = -2.0,2.0
-yStart,yEnd = -1.0,1.0
+N = 200                                                   # Number of points in each direction
+xStart,xEnd = -2.0,2.0                                    # Sets the limits of x vector
+yStart,yEnd = -1.0,1.0                                    # and y vector
 x = np.linspace(xStart,xEnd,N)
 y = np.linspace(yStart,yEnd,N)
 X,Y = np.meshgrid(x,y)
@@ -52,6 +52,8 @@ plt.gca().add_patch(circle)
 plt.scatter(xDoublet,yDoublet,c='#CDFFFF')
 plt.scatter([xStag1,xStag2],[yStag1,yStag2],c='#400D12',s=80,marker='o')
 
+gammaprime = 4*pi*Uinf*R
+print ('4*pi*Uinf*R= '),gammaprime
 gamma = input('Vortex strength: ')
 xVortex,yVortex = xDoublet,yDoublet
 
@@ -112,7 +114,7 @@ plt.ylabel('y',fontsize=16)
 plt.xlim(xStart,xEnd)
 plt.ylim(yStart,yEnd)
 plt.title('Pressure Gradient with no Vortex')
-contf=plt.contourf(X,Y,Cp1,levels=np.linspace(-2.0,2.0,100),extend='both')
+contf=plt.contourf(X,Y,Cp1,levels=np.linspace(-5.0,2.0,100),extend='both')
 cbar=plt.colorbar(contf)
 cbar.set_label(r'$C_p$',fontsize=16)
 cbar.set_ticks([-2.0,-1.0,0.0,1.0])
@@ -124,7 +126,7 @@ plt.ylabel('y',fontsize=16)
 plt.xlim(xStart,xEnd)
 plt.ylim(yStart,yEnd)
 plt.title('Pressure Gradient with Vortex')
-contf=plt.contourf(X,Y,Cpv,levels=np.linspace(-2.0,2.0,100),extend='both')
+contf=plt.contourf(X,Y,Cpv,levels=np.linspace(-5.0,2.0,100),extend='both')
 cbar=plt.colorbar(contf)
 cbar.set_label(r'$C_p$',fontsize=16)
 cbar.set_ticks([-2.0,-1.0,0.0,1.0])
