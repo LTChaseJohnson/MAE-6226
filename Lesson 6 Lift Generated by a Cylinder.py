@@ -101,4 +101,33 @@ plt.xlim(theta.min(),theta.max())
 plt.plot(theta,Cp,color='#CD2305',linewidth=2,linestyle='-')
 plt.plot(theta,Cpn,color='g',linewidth=2,linestyle='-')
 plt.legend(['with vortex','without vortex'],loc='best',prop={'size':16});
+
+# Plotting pressure contour
+Cp1 = 1.0-(u1**2+v1**2)/Uinf**2
+Cpv = 1.0-(u**2+v**2)/Uinf**2
+
+plt.figure(figsize=(1.1*size,(yEnd-yStart)/(xEnd-xStart)*size))
+plt.xlabel('x',fontsize=16)
+plt.ylabel('y',fontsize=16)
+plt.xlim(xStart,xEnd)
+plt.ylim(yStart,yEnd)
+plt.title('Pressure Gradient with no Vortex')
+contf=plt.contourf(X,Y,Cp1,levels=np.linspace(-2.0,1.0,100),extend='both')
+cbar=plt.colorbar(contf)
+cbar.set_label(r'$C_p$',fontsize=16)
+cbar.set_ticks([-2.0,-1.0,0.0,1.0])
+plt.scatter(xDoublet,yDoublet,c='#CD2305',s=80,marker='o')
+
+plt.figure(figsize=(1.1*size,(yEnd-yStart)/(xEnd-xStart)*size))
+plt.xlabel('x',fontsize=16)
+plt.ylabel('y',fontsize=16)
+plt.xlim(xStart,xEnd)
+plt.ylim(yStart,yEnd)
+plt.title('Pressure Gradient with Vortex')
+contf=plt.contourf(X,Y,Cpv,levels=np.linspace(-2.0,1.0,100),extend='both')
+cbar=plt.colorbar(contf)
+cbar.set_label(r'$C_p$',fontsize=16)
+cbar.set_ticks([-2.0,-1.0,0.0,1.0])
+plt.scatter(xDoublet,yDoublet,c='#CD2305',s=80,marker='o')
+
 plt.show()
