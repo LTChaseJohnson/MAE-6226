@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import *
 
-N = 100
+N = 200
 xStart,xEnd = -2.0,2.0
 yStart,yEnd = -1.0,1.0
 x = np.linspace(xStart,xEnd,N)
@@ -27,9 +27,9 @@ def getfunctionsdoublet(strength,xd,yd,X,Y):
     
 uDoublet,vDoublet,psiDoublet = getfunctionsdoublet(kappa,xDoublet,yDoublet,X,Y)
 
-u = uDoublet + uFreestream
-v = vDoublet + vFreestream
-psi = psiDoublet + psiFreestream
+u1 = uDoublet + uFreestream
+v1 = vDoublet + vFreestream
+psi1 = psiDoublet + psiFreestream
 
 # Determining stagnation points for general flow
 xStag1,yStag2 =-sqrt(kappa/(2*pi*Uinf))+xDoublet,sin(alpha)*sqrt(kappa/(2*pi*Uinf))+yDoublet
@@ -46,9 +46,42 @@ plt.ylabel('y',fontsize=16)
 plt.title('Cylinder in a Freestream')
 plt.ylim(yStart,yEnd)
 plt.xlim(xStart,xEnd)
-plt.streamplot(X,Y,u,v,density=2.0,linewidth=1,color='#4fd5d6',arrowsize=1,arrowstyle='->')
+plt.streamplot(X,Y,u1,v1,density=2.0,linewidth=1,arrowsize=1,arrowstyle='->')
 circle = plt.Circle((xDoublet,yDoublet),radius=R,color='#ff0000')
 plt.gca().add_patch(circle)
 plt.scatter(xDoublet,yDoublet,c='#CDFFFF')
 plt.scatter([xStag1,xStag2],[yStag1,yStag2],c='#400D12',s=80,marker='o')
+
+gamma = input('Vortex strength: ')
+xVortex,yVortex = xDoublet,yDoublet
+
+def getfunctionsvortex(strength,xv,yv,X,Y):
+    u = strength/(2*pi)*((yv-Y)/((xv-X)**2+(yv-Y)**2))
+    v = -strength/(2*pi)*((xv-X)/((xv-X)**2+(yv-Y)**2))
+    psi = strength/(4*pi)*np.log((xv-X)**2+(yv-Y)**2)
+    return u,v,psi
+
+uVortex,vVortex,psiVortex = getfunctionsvortex(kappa,xVortex,yVortex,X,Y)
+
+u = uVortex + uDoublet + uFreestream
+v = vVortex + vDoublet + vFreestream
+
+# New Stagnation Points
+rs = sqrt(kappa/(2*pi*Uinf*cos(alpha)))
+thetas = (-gamma/(2*pi*rs))/((1/(Uinf*cos(alpha)))+(Uinf*cos(alpha)))
+xstag1,ystag1 = rs*np.cos(thetas),rs*np.sin(thetas)
+xstag2,ystag2 = -rs*np.cos(thetas),rs*np.sin(thetas)
+
+
+plt.figure(figsize=(size,(yEnd-yStart)/(xEnd-xStart)*size))
+plt.xlabel('x',fontsize=16)
+plt.ylabel('y',fontsize=16)
+plt.title('Cylinder in a Freestream')
+plt.ylim(yStart,yEnd)
+plt.xlim(xStart,xEnd)
+plt.streamplot(X,Y,u,v,density=2.0,linewidth=1,arrowsize=1,arrowstyle='->')
+circle = plt.Circle((xDoublet,yDoublet),radius=R,color='#ff0000')
+plt.gca().add_patch(circle)
+plt.scatter(xDoublet,yDoublet,c='#CDFFFF')
+plt.scatter([xstag1,xstag2],[ystag1,ystag2],c='#400D12',s=80,marker='o')
 plt.show()
