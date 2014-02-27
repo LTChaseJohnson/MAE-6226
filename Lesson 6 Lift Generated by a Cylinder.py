@@ -84,4 +84,20 @@ circle = plt.Circle((xDoublet,yDoublet),radius=R,color='#ff0000')
 plt.gca().add_patch(circle)
 plt.scatter(xDoublet,yDoublet,c='#CDFFFF')
 plt.scatter([xstag1,xstag2],[ystag1,ystag2],c='#400D12',s=80,marker='o')
+
+theta = np.linspace(0,2*pi,200)
+#alphag = alpha * np.ones_like(theta)
+utheta = Uinf*(np.sin(alpha)*np.cos(theta)-np.cos(alpha)*np.sin(theta))+gamma/(2*pi*R)
+uthetan = Uinf*(np.sin(alpha)*np.cos(theta)-np.cos(alpha)*np.sin(theta))
+Cp = 1-(utheta/Uinf)**2
+Cpn = 1-(uthetan/Uinf)**2
+
+plt.figure(figsize=(size,size))
+plt.grid(True)
+plt.xlabel(r'$\theta$',fontsize=18)
+plt.ylabel(r'$C_p$',fontsize=18)
+plt.xlim(theta.min(),theta.max())
+plt.plot(theta,Cp,color='#CD2305',linewidth=2,linestyle='-')
+plt.plot(theta,Cpn,color='g',linewidth=2,linestyle='-')
+plt.legend(['with vortex','without vortex'],loc='best',prop={'size':16});
 plt.show()

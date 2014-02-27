@@ -22,14 +22,19 @@ gamma = input('Enter vortex strength: ')
 Nv = input('Enter number of vortices: ')
 xVortex = np.linspace(xStart,xEnd,Nv)
 yVortex = np.zeros(Nv)
+Uinf = input('Freestream velocity: ')
+alpha1 = input('Freestream angle of attack: ')
+alpha = alpha1*(pi/180)
+uFreestream = Uinf*cos(alpha)*np.ones((N,N),dtype=float)
+vFreestream = Uinf*sin(alpha)*np.ones((N,N),dtype=float)
 u = np.zeros((N,N))
 v = np.zeros((N,N))
 
 for i in range(0,Nv):
     uVortex,vVortex = getvelocityvortex(gamma,xVortex[i],yVortex[i],X,Y)
     psiVortex = getstreamfunctionvortex(gamma,xVortex[i],yVortex[i],X,Y)
-    u = u + uVortex
-    v = v + vVortex
+    u = u + uVortex + uFreestream
+    v = v + vVortex + vFreestream
 
 size = 10
 plt.figure(figsize=(size,(yEnd-yStart)/(xEnd-xStart)*size))
@@ -52,13 +57,16 @@ def getvelocityinfvortex(strength,xv,yv,X,Y):
 
 uinfVortex,vinfVortex = getvelocityinfvortex(gamma,xinfVortex,yinfVortex,X,Y)
 
+u1 = uinfVortex + uFreestream
+v1 = vinfVortex + vFreestream
+
 plt.figure(figsize=(size,(yEnd-yStart)/(xEnd-xStart)*size))
 plt.xlabel('x',fontsize=16)
 plt.ylabel('y',fontsize=16)
 plt.title('Infinite Vortices')
 plt.xlim(xStart,xEnd)
 plt.ylim(yStart,yEnd)
-plt.streamplot(X,Y,uinfVortex,vinfVortex,density=2.0,linewidth=1,arrowsize=1,arrowstyle='->')
+plt.streamplot(X,Y,u1,v1,density=2.0,linewidth=1,arrowsize=1,arrowstyle='->')
 plt.scatter(xinfVortex,yinfVortex,c='#CD2305',s=80,marker='o')
 
 plt.show()
