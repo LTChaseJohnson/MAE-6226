@@ -86,9 +86,10 @@ plt.scatter(xDoublet,yDoublet,c='#CDFFFF')
 plt.scatter([xstag1,xstag2],[ystag1,ystag2],c='#400D12',s=80,marker='o')
 
 theta = np.linspace(0,2*pi,200)
-#alphag = alpha * np.ones_like(theta)
-utheta = Uinf*(np.sin(alpha)*np.cos(theta)-np.cos(alpha)*np.sin(theta))+gamma/(2*pi*R)
-uthetan = Uinf*(np.sin(alpha)*np.cos(theta)-np.cos(alpha)*np.sin(theta))
+C1 = np.cos(alpha)*np.cos(theta)+np.sin(alpha)*np.sin(theta)
+C2 = np.sin(alpha)*np.cos(theta)-np.cos(alpha)*np.sin(theta)
+utheta = Uinf*(C1+C2)+gamma/(2*pi*R)
+uthetan = Uinf*(C1+C2)
 Cp = 1-(utheta/Uinf)**2
 Cpn = 1-(uthetan/Uinf)**2
 
