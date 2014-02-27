@@ -61,7 +61,7 @@ def getfunctionsvortex(strength,xv,yv,X,Y):
     psi = strength/(4*pi)*np.log((xv-X)**2+(yv-Y)**2)
     return u,v,psi
 
-uVortex,vVortex,psiVortex = getfunctionsvortex(kappa,xVortex,yVortex,X,Y)
+uVortex,vVortex,psiVortex = getfunctionsvortex(gamma,xVortex,yVortex,X,Y)
 
 u = uVortex + uDoublet + uFreestream
 v = vVortex + vDoublet + vFreestream
@@ -69,8 +69,8 @@ v = vVortex + vDoublet + vFreestream
 # New Stagnation Points
 rs = sqrt(kappa/(2*pi*Uinf*cos(alpha)))
 thetas = (-gamma/(2*pi*rs))/((1/(Uinf*cos(alpha)))+(Uinf*cos(alpha)))
-xstag1,ystag1 = rs*np.cos(thetas),rs*np.sin(thetas)
-xstag2,ystag2 = -rs*np.cos(thetas),rs*np.sin(thetas)
+xstag1,ystag1 = rs*np.cos(thetas),-rs*np.sin(thetas)
+xstag2,ystag2 = -rs*np.cos(thetas),-rs*np.sin(thetas)
 
 
 plt.figure(figsize=(size,(yEnd-yStart)/(xEnd-xStart)*size))
@@ -112,7 +112,7 @@ plt.ylabel('y',fontsize=16)
 plt.xlim(xStart,xEnd)
 plt.ylim(yStart,yEnd)
 plt.title('Pressure Gradient with no Vortex')
-contf=plt.contourf(X,Y,Cp1,levels=np.linspace(-2.0,1.0,100),extend='both')
+contf=plt.contourf(X,Y,Cp1,levels=np.linspace(-2.0,2.0,100),extend='both')
 cbar=plt.colorbar(contf)
 cbar.set_label(r'$C_p$',fontsize=16)
 cbar.set_ticks([-2.0,-1.0,0.0,1.0])
@@ -124,7 +124,7 @@ plt.ylabel('y',fontsize=16)
 plt.xlim(xStart,xEnd)
 plt.ylim(yStart,yEnd)
 plt.title('Pressure Gradient with Vortex')
-contf=plt.contourf(X,Y,Cpv,levels=np.linspace(-2.0,1.0,100),extend='both')
+contf=plt.contourf(X,Y,Cpv,levels=np.linspace(-2.0,2.0,100),extend='both')
 cbar=plt.colorbar(contf)
 cbar.set_label(r'$C_p$',fontsize=16)
 cbar.set_ticks([-2.0,-1.0,0.0,1.0])
