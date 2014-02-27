@@ -43,7 +43,7 @@ psis = source.psi + sourceimage.psi
 
 # Plotting combined velocity field
 size = 10
-plt.figure(figsize=(size,(yEnd-yStart)/(xEnd-xStart)*size))
+plt.figure(num=1,figsize=(size,(yEnd-yStart)/(xEnd-xStart)*size))
 plt.xlabel('x',fontsize=16)
 plt.ylabel('y',fontsize=16)
 plt.title('Combined Source and Image')
@@ -66,34 +66,66 @@ class Vortex:
         self.psi = self.strength/(4*pi)*np.log((X-self.x)**2+(Y-self.y)**2)
 
 # User inputs for vortex strength and positions
-VortexStrength = input('Vortex Strength: ')
-xVortex,yVortex = input('Vortex position (x,y): ')
+VortexStrength1 = input('Vortex1 Strength: ')
+xVortex1,yVortex1 = input('Vortex1 position (x,y): ')
 
 # Calculating vortex characteristics
-vortex = Vortex(VortexStrength,xVortex,yVortex)
-vortex.velocity(X,Y)
-vortex.stream(X,Y)
+vortex1 = Vortex(VortexStrength1,xVortex1,yVortex1)
+vortex1.velocity(X,Y)
+vortex1.stream(X,Y)
 
 # Calculating image based on x-axis symmetry
-vorteximage = Vortex(-VortexStrength,xVortex,-yVortex)
-vorteximage.velocity(X,Y)
-vorteximage.stream(X,Y)
+vorteximage1 = Vortex(-VortexStrength1,xVortex1,-yVortex1)
+vorteximage1.velocity(X,Y)
+vorteximage1.stream(X,Y)
 
 # Applying superposition principle
-uv = vortex.u + vorteximage.u
-vv = vortex.v + vorteximage.v
-psiv = vortex.stream + vorteximage.stream
+uv1 = vortex1.u + vorteximage1.u
+vv1 = vortex1.v + vorteximage1.v
+psiv1 = vortex1.psi + vorteximage1.psi
 
 # Plotting combined velocity field
 size = 10
-plt.figure(figsize=(size,(yEnd-yStart)/(xEnd-xStart)*size))
+plt.figure(num=2,figsize=(size,(yEnd-yStart)/(xEnd-xStart)*size))
 plt.xlabel('x',fontsize=16)
 plt.ylabel('y',fontsize=16)
 plt.title('Combined Vortex and Image')
 plt.xlim(xStart,xEnd)
 plt.ylim(yStart,yEnd)
-plt.streamplot(X,Y,uv,vv,density=4.0,linewidth=1,arrowsize=1,arrowstyle='->')
-plt.scatter(source.x,source.y,c='#FF0000',s=80,marker='o')
-plt.scatter(sourceimage.x,sourceimage.y,c='#000000',s=80,marker='^')
+plt.streamplot(X,Y,uv1,vv1,density=4.0,linewidth=1,arrowsize=1,arrowstyle='->')
+plt.scatter(vortex1.x,vortex1.y,c='#FF0000',s=80,marker='o')
+plt.scatter(vorteximage1.x,vorteximage1.y,c='#000000',s=80,marker='^')
+plt.axhline(y=0,linewidth=4,color='#000000')
+
+# User inputs for vortex strength and positions
+VortexStrength2 = input('Vortex2 Strength: ')
+xVortex2,yVortex2 = input('Vortex2 position (x,y): ')
+
+# Calculating vortex characteristics
+vortex2 = Vortex(VortexStrength2,xVortex2,yVortex2)
+vortex2.velocity(X,Y)
+vortex2.stream(X,Y)
+
+# Calculating image based on x-axis symmetry
+vorteximage2 = Vortex(-VortexStrength2,xVortex2,-yVortex2)
+vorteximage2.velocity(X,Y)
+vorteximage2.stream(X,Y)
+
+# Applying superposition principle
+uv2 = vortex2.u + vorteximage2.u + vortex1.u + vorteximage1.u
+vv2 = vortex2.v + vorteximage2.v + vortex1.v + vorteximage1.v
+psiv2 = vortex2.psi + vorteximage2.psi + vortex1.psi + vorteximage1.psi
+
+# Plotting combined velocity field
+size = 10
+plt.figure(num=3,figsize=(size,(yEnd-yStart)/(xEnd-xStart)*size))
+plt.xlabel('x',fontsize=16)
+plt.ylabel('y',fontsize=16)
+plt.title('Combined Vortex and Image')
+plt.xlim(xStart,xEnd)
+plt.ylim(yStart,yEnd)
+plt.streamplot(X,Y,uv2,vv2,density=4.0,linewidth=1,arrowsize=1,arrowstyle='->')
+plt.scatter([vortex1.x,vortex2.x],[vortex1.y,vortex2.y],c='#FF0000',s=80,marker='o')
+plt.scatter([vorteximage1.x,vorteximage2.x],[vorteximage1.y,vorteximage2.y],c='#000000',s=80,marker='^')
 plt.axhline(y=0,linewidth=4,color='#000000')
 plt.show()
