@@ -1,6 +1,6 @@
 # Importing libraries
 import numpy as np
-import pyplot.lib as plt
+import matplotlib.pyplot as plt
 from math import *
 
 # Creating mesh
@@ -31,7 +31,34 @@ class Source:
 # Defining number of sources in finite line
 NSource = input('Number of sources: ')
 ySourceStart,ySourceEnd = input('Finite line dimensions (ymax,ymin): ')
+xSourceStart,xSourceEnd = 0.0,0.0
 SourceStrength = input('Source Strength: ')
-SourceDist = np.linspace(ySourceStart,ySourceEnd,Nsource)
+SourceDisty = np.linspace(ySourceStart,ySourceEnd,NSource)
+SourceDistx = np.linspace(xSourceStart,xSourceEnd,NSource)
+source = np.empty(NSource)
 
 # Calculating Source Velocity Fields
+for i in range(NSource):
+    source[i] = Source(SourceStrength,SourceDistx[i],SourceDisty[i])
+    source[i].velocity(X,Y)
+    source[i].streamfunction(X,Y)
+
+# Superposition Principle
+for j in source:
+    u = np.add(u,j.u) + uFreestream
+    v = np.add(v,j.v) + vFreestream
+
+# plotting
+size = 8
+plt.figure(figsize=(size,(yEnd-yStart)/(xEnd-xStart)*size))
+plt.grid(True)
+plt.xlabel('x',fontsize=16)
+plt.ylabel('y',fontsize=16)
+plt.xlim(xStart,xEnd)
+plt.ylim(yStart,yEnd)
+plt.streamplot(X,Y,u,v,density=3,linewidth=1,arrowsize=1,arrowstyle='->')
+plt.scatter(xSource*np.ones(NSource,dtype=float),ySource,c='#CD2305',s=80,marker='o')
+cont = plt.contourf(X,Y,np.sqrt(u**2+v**2),levels=np.linspace(0.0,0.1,10))
+cbar = plt.colorbar(cont)
+cbar.set_label('U',fontsize=16);
+plt.show()
